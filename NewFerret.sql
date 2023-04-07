@@ -1,3 +1,11 @@
+-- INF3FM Ferret
+-- Cauê Aparecido n°04 
+-- Filipe Vinicius n°11
+-- Gabriel Lourenço n°12
+-- Gabriely dos Santos n°14
+-- Guilherme Gomes n°16
+-- Luisa Delgado n°25
+
 USE MASTER IF EXISTS(SELECT * FROM SYS.databases WHERE NAME = 'NewFerret')
 DROP DATABASE NewFerret
 GO
@@ -78,7 +86,7 @@ id int identity not null,
 projeto_id int not null,
 titulo varchar(30) not null,
 subtarefa varchar(50) null,
-estado_tarefa bit not null, --Feita ou n�o feita
+estado_tarefa bit not null, --Feita ou não feita
 primary key (id),
 foreign key (projeto_id) references projeto(id)
 )
@@ -107,11 +115,11 @@ values ('1', 'Ferret', 6 ,'sistema de gerenciamento de projetos', 03/04/2022, 10
 go
 
 insert into postagem (usuario_id, data_post,conteudo,status_post)
-values ('1', 05/04/2023,'Reuni�o no teams as 16:00, segue o link:-', 'true')
+values ('1', 05/04/2023,'Reunião no teams as 16:00, segue o link:-', 'true')
 go
 
 insert into aviso (usuario_id, conteudo_mensagem, status_comentario, momentodeenvio)
-values ('1', 'Caro amigo guilherme, devido a sua falta na reuni�o venho pedir para que me mande mensagem pelo whattsap e envie seu relatorio', 'true', 06/04/2023)
+values ('1', 'Caro amigo guilherme, devido a sua falta na reunião venho pedir para que me mande mensagem pelo whattsap e envie seu relatorio', 'true', 06/04/2023)
 go
 
 insert into Tarefa_Kanban (projeto_id, titulo, subtarefa, estado_tarefa)
