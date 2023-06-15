@@ -1,0 +1,118 @@
+USE MASTER IF EXISTS(SELECT * FROM SYS.databases WHERE NAME = 'NewFerret')
+DROP DATABASE NewFerret
+GO
+
+CREATE DATABASE NewFerret
+GO
+
+USE NewFerret
+GO
+
+
+
+create table usuario
+(
+id int identity not null,
+nome_usuario varchar(60) not null,
+email varchar(60) not null,
+foto varbinary(max) not null,
+senha varchar(50) not null,
+nivel_acesso VARCHAR(10) NULL, --ADM, USER
+telefone varchar(20) not NULL,
+status_usuario VARCHAR(20) not null,
+primary key (id),
+)
+
+
+create table projeto
+(
+ id int identity not null,
+ usuario_id int not null,
+ titulo varchar(40) not null,
+ quant_membros int not null,
+ descricao varchar(1000) not null,
+ data_inicio smalldatetime not null,
+ data_fim smalldatetime  null,
+ status_projeto varchar(20) not null,
+ primary key(id),
+ foreign key(usuario_id) references usuario(id)
+)
+
+create table projeto_usuario
+(
+id int identity not null,
+projeto_id int not null,
+usuario_id int not null,
+status_usuario bit not null,
+primary key(id),
+foreign key(projeto_id) references projeto(id),
+foreign key(usuario_id) references usuario(id)
+)
+
+create table postagem
+(
+id int identity not null,
+usuario_id int  not null,
+projeto_id int not null,
+data_post smalldatetime not null,
+conteudo varchar(500) not null,
+imagem varbinary(max) null,
+status_post bit not null,
+primary key(id),
+foreign key(usuario_id) references usuario(id),
+foreign key(projeto_id) references projeto(id)
+)
+
+
+create table tarefa_kanban
+(
+id int identity not null,
+projeto_id int not null,
+titulo varchar(100) not null,
+status_tarefa bit not null, --Feita ou não feita
+primary key (id),
+foreign key (projeto_id) references projeto(id)
+)
+
+create table cronograma (
+	id int identity not null,
+	projeto_id int not null,
+	nome_evento varchar(100) not null,
+	data_inicio_evento smalldatetime not null,
+	data_fim_evento smalldatetime null,
+	status_cronograma bit not null,
+	primary key(id),
+	foreign key(projeto_id) references projeto(id)
+)
+/*create table grafico -- Standby no momento
+(
+ id int identity not null,
+ projeto_id int not null,
+ informacoes_graph int not null,
+ informacoes_string varchar(400) not null,
+ primary key(id),
+ foreign key(projeto_id) references projeto(id)
+)*/
+
+--- Inserts de exemplo
+
+Insert into usuario(nome_usuario, email, senha, NiveldeAcesso ,tel, Status_usuario)
+values ('Geek', 'gabrielzeferino883@gmail.com', 'LongLivefortheKing', 'adm', '11966935903', 'ativo');
+go
+
+Insert into usuario(nome, email, senha, NiveldeAcesso ,tel, Status_usuario)
+values ('gui', 'guilhermeguerra@gmail.com', 'zorocdr123', 'user', '11976423487', 'ativo')
+go
+
+Insert into projeto (usuario_id, titulo, quant_membros, descricao, data_inicio, data_fim)
+values ('1', 'Ferret', 6 ,'sistema de gerenciamento de projetos', 03/04/2022, 10/10/2023);
+go
+
+insert into postagem (usuario_id, data_post,conteudo,status_post)
+values ('1', 05/04/2023,'Reunião no teams as 16:00, segue o link:-', 'true')
+go
+
+
+insert into Tarefa_Kanban (projeto_id, titulo, subtarefa, estado_tarefa)
+values('1', 'criar telas web', 'Criar tela de projeto', 'true')
+go
